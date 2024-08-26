@@ -2,6 +2,7 @@
 #define _HQVEC_HPP_
 
 #include <cassert>
+#include <cmath>
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -131,6 +132,23 @@ template <typename T, std::size_t n> class vec {
         }
         return out;
     }
+
+    std::size_t size() const { return n; }
+
+    T length2() const {
+        float out = 0;
+        for (int i = 0; i < n; i++) {
+            float temp = data[i];
+            out += temp * temp;
+        }
+        return out;
+    }
+
+    T length() const { return sqrt(length2()); }
+
+    T distance2(const vec<T, n> v) const { return ((*this) - v).length2(); }
+
+    T distance(const vec<T, n> v) const { return ((*this) - v).length(); }
 
     std::string to_string() const {
         std::string out = "vec<" + std::string(typeid(T).name()) + "," +
@@ -301,6 +319,16 @@ template <typename T> class vec<T, 4> {
         return vec<T, n1>(x, y);
     }
 
+    std::size_t size() const { return 4; }
+
+    T length2() const { return x * x + y * y + z * z + w * w; }
+
+    T length() const { return sqrt(length2()); }
+
+    T distance2(const vec<T, 4> v) { return ((*this) - v).length2(); }
+
+    T distance(const vec<T, 4> v) { return ((*this) - v).length(); }
+
     std::string to_string() const {
         return "vec<" + std::string(typeid(T).name()) + ",3>(" +
                std::to_string(x) + "," + std::to_string(y) + "," +
@@ -446,6 +474,16 @@ template <typename T> class vec<T, 3> {
         return vec<T, n1>(x, y);
     }
 
+    std::size_t size() const { return 3; }
+
+    T length2() const { return x * x + y * y + z * z; }
+
+    T length() const { return sqrt(length2()); }
+
+    T distance2(const vec<T, 3> v) { return ((*this) - v).length2(); }
+
+    T distance(const vec<T, 3> v) { return ((*this) - v).length(); }
+
     std::string to_string() const {
         return "vec<" + std::string(typeid(T).name()) + ",3>(" +
                std::to_string(x) + "," + std::to_string(y) + "," +
@@ -572,6 +610,16 @@ template <typename T> class vec<T, 2> {
         return vec<T, n1>(x, y);
     }
 
+    std::size_t size() const { return 2; }
+
+    T length2() const { return x * x + y * y; }
+
+    T length() const { return sqrt(length2()); }
+
+    T distance2(const vec<T, 2> v) { return ((*this) - v).length2(); }
+
+    T distance(const vec<T, 2> v) { return ((*this) - v).length(); }
+
     std::string to_string() const {
         return "vec<" + std::string(typeid(T).name()) + ",2>(" +
                std::to_string(x) + "," + std::to_string(y) + ")";
@@ -588,6 +636,81 @@ template <typename T> using vec4 = vec<T, 4>;
 template <typename T> using vec3 = vec<T, 3>;
 
 template <typename T> using vec2 = vec<T, 2>;
+
+#define HQ_MATH_FUNC(name)                                                     \
+    template <typename T, std::size_t n,                                       \
+              typename = typename std::enable_if<                              \
+                  std::is_floating_point<T>::value>::type>                     \
+    static inline vec<T, n> name(const vec<T, n>& v) {                         \
+        vec<T, n> out;                                                         \
+        for (int i = 0; i < n; i++) {                                          \
+            out[i] = std::name(v[i]);                                          \
+        }                                                                      \
+        return out;                                                            \
+    }
+
+#define HQ_MATH_FUNC_2(name)                                                   \
+    template <typename T, std::size_t n, typename T2,                          \
+              typename = typename std::enable_if<                              \
+                  std::is_floating_point<T>::value>::type>                     \
+    static inline vec<T, n> name(const vec<T, n>& v, T2 y) {                   \
+        vec<T, n> out;                                                         \
+        for (int i = 0; i < n; i++) {                                          \
+            out[i] = std::name(v[i], y);                                       \
+        }                                                                      \
+        return out;                                                            \
+    }                                                                          \
+    template <typename T, std::size_t n,                                       \
+              typename = typename std::enable_if<                              \
+                  std::is_floating_point<T>::value>::type>                     \
+    static inline vec<T, n> name(const vec<T, n>& v, const vec<T, n>& y) {     \
+        vec<T, n> out;                                                         \
+        for (int i = 0; i < n; i++) {                                          \
+            out[i] = std::name(v[i], y[i]);                                    \
+        }                                                                      \
+        return out;                                                            \
+    }
+
+HQ_MATH_FUNC(acos)
+
+HQ_MATH_FUNC(asin)
+
+HQ_MATH_FUNC(atan)
+
+HQ_MATH_FUNC(cos)
+
+HQ_MATH_FUNC(cosh)
+
+HQ_MATH_FUNC(sin)
+
+HQ_MATH_FUNC(sinh)
+
+HQ_MATH_FUNC(tan)
+
+HQ_MATH_FUNC(exp)
+
+HQ_MATH_FUNC(log)
+
+HQ_MATH_FUNC(log10)
+
+HQ_MATH_FUNC(sqrt)
+
+HQ_MATH_FUNC(ceil)
+
+HQ_MATH_FUNC(fabs)
+
+HQ_MATH_FUNC(floor)
+
+HQ_MATH_FUNC(round)
+
+HQ_MATH_FUNC_2(atan2)
+
+HQ_MATH_FUNC_2(pow)
+
+HQ_MATH_FUNC_2(fmod)
+
+#undef HQ_MATH_FUNC
+#undef HQ_MATH_FUNC_2
 
 } // namespace HQ
 
