@@ -1,50 +1,102 @@
 #include "hqvec.hpp"
-
 #include <cstdlib>
 #include <iostream>
 
 using namespace HQ;
 
-struct my_vec {
-    float x;
-    float y;
-    float z;
+// some examples of 3d vector types you may encounter
+struct some_libraries_3d_vector_type {
+    float x, y, z;
 };
 
+typedef float some_other_libraries_3d_vector_type[3];
+
+// function outputting `some_libraries_3d_vector_type`:
+some_libraries_3d_vector_type example_output(float x, float y, float z) {
+    some_libraries_3d_vector_type out;
+    out.x = x;
+    out.y = y;
+    out.z = z;
+    return out;
+}
+
+// function outputting `some_libraries_3d_vector_type`:
+void example_output2(float x, float y, float z,
+                     some_other_libraries_3d_vector_type out) {
+    out[0] = x;
+    out[1] = y;
+    out[2] = z;
+}
+
+// function taking `some_other_libraries_3d_vector_type` as input
+void example_input(some_other_libraries_3d_vector_type input) {
+    std::cout << input[0] << "," << input[1] << "," << input[2] << std::endl;
+}
+
+// function taking `some_other_libraries_3d_vector_type` as input
+void example_input2(some_libraries_3d_vector_type input) {
+    std::cout << input.x << "," << input.y << "," << input.z << std::endl;
+}
+
 int main() {
+    // I can use the input of `example_output` as the input for `example_input`:
+    example_input((float*)vec3<float>::from_generic(example_output(1, 2, 3)));
 
-    printf("vec4 = %lu\n", sizeof(vec4<float>) / sizeof(float));
-    printf("vec3 = %lu\n", sizeof(vec3<float>) / sizeof(float));
-    printf("vec2 = %lu\n", sizeof(vec2<float>) / sizeof(float));
+    // or I could have done
+    some_other_libraries_3d_vector_type my_vec;
+    vec3<float>::from_generic(example_output(1, 2, 3)).copy_to(my_vec, 3);
+    example_input(my_vec);
 
-    float tmp[] = {9, 8};
+    // or the other way around
+    some_other_libraries_3d_vector_type my_vec2;
+    example_output2(1, 2, 3, my_vec2);
+    example_input2(
+        vec3<float>(my_vec2).to_generic<some_libraries_3d_vector_type>());
 
-    auto a = vec<float, 2>(tmp, 2);
-    auto b = vec<float, 2>(1, 8);
-    printf("%g\n", a.distance(b));
-    float* a_ptr = (float*)a;
-    a_ptr[0] = 10;
-    std::cout << a << std::endl;
-    std::cout << b << std::endl;
-    std::cout << (vec<int, 6>)(a * b).expand<6>() << std::endl;
-    // std::cout << (vec<int,2>)(a * b).shrink<2>() << std::endl;
-    (a * b).copy((float*)tmp, 2);
-    std::cout << (vec<int, 2>)(a * b) << std::endl;
-    std::cout << tmp[0] << ", " << tmp[1] << std::endl;
-    std::cout << (a == a) << std::endl;
+    // vec2/3/4 types
+    vec2<float> v2;
+    std::cout << v2 << std::endl;
+    vec3<int> v3;
+    std::cout << v3 << std::endl;
+    vec4<double> v4;
+    std::cout << v4 << std::endl;
 
-    std::cout << (vec2<int>)round(pow(a, vec2<float>(2, 2))) << std::endl;
+    // nd vec type
+    vec<float, 10> v10;
+    std::cout << v10 << std::endl;
 
-    printf("%g\n", vec<float, 2>(1, 2).length2());
+    // casting
+    vec2<float> x = (vec2<float>)vec2<int>(1, 2);
+    std::cout << x << std::endl;
 
-    // my_vec test = a.to_generic<my_vec>();
-    // printf("%g %g %g\n",test.x,test.y,test.z);
-    //  auto& t = a.get<0>();
-    //  std::cout << a[0] << std::endl;
-    //  std::cout << a[1] << std::endl;
-    //  std::cout << a[2] << std::endl;
+    // exanding shrinking
+    std::cout << x.expand<3>() << std::endl;
+    std::cout << v10.shrink<5>() << std::endl;
 
-    // printf("sizeof vec = %lu\n",sizeof(vec<float,3>));
-    // printf("sizeof vec3 = %lu\n",sizeof(vec3<float>));
+    // typical overloads
+    std::cout << v2 + x << std::endl;
+    std::cout << v2 - x << std::endl;
+    std::cout << v2 * x << std::endl;
+    std::cout << v2 / x << std::endl;
+    std::cout << x.length() << std::endl;
+    std::cout << x.length2() << std::endl;
+    std::cout << x.distance(v2) << std::endl;
+    std::cout << x.distance2(v2) << std::endl;
+    std::cout << sin(v2) << std::endl;
+    std::cout << pow(v2, 2) << std::endl;
+    std::cout << pow(v2, x) << std::endl;
+
+    // access by index notation (without compile time bounds checking)
+    v2[0] = 5;
+    std::cout << v2[0] << std::endl;
+
+    // or using get (with compile time bounds checking)
+    v2.get<0>() = 6;
+    std::cout << v2.get<0>() << std::endl;
+
+    // or (for vec2,vec3,vec4), using .x, .y, etc..
+    v2.x = 7;
+    std::cout << v2.x << std::endl;
+
     return 0;
 }

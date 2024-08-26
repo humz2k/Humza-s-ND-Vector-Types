@@ -99,7 +99,7 @@ template <typename T, std::size_t n> class vec {
 
     operator const T*() const { return data; }
 
-    void copy(T out[], int count = n) const {
+    void copy_to(T out[], int count = n) const {
         for (int i = 0; i < count; i++) {
             out[i] = data[i];
         }
@@ -281,7 +281,7 @@ template <typename T> class vec<T, 4> {
 
     operator const T*() const { return reinterpret_cast<const T*>(this); }
 
-    void copy(T out[], int count = 4) const {
+    void copy_to(T out[], int count = 4) const {
         if (count > 0)
             out[0] = x;
         if (count > 1)
@@ -305,6 +305,10 @@ template <typename T> class vec<T, 4> {
         out.z = z;
         out.w = w;
         return out;
+    }
+
+    template <typename T1> static vec<T, 4> from_generic(const T1& other) {
+        return vec<T, 4>(other.x, other.y, other.z, other.w);
     }
 
     template <std::size_t n1> vec<T, n1> expand() {
@@ -443,7 +447,7 @@ template <typename T> class vec<T, 3> {
 
     operator const T*() const { return reinterpret_cast<const T*>(this); }
 
-    void copy(T out[], int count = 3) const {
+    void copy_to(T out[], int count = 3) const {
         if (count > 0)
             out[0] = x;
         if (count > 1)
@@ -462,6 +466,10 @@ template <typename T> class vec<T, 3> {
         out.y = y;
         out.z = z;
         return out;
+    }
+
+    template <typename T1> static vec<T, 3> from_generic(const T1& other) {
+        return vec<T, 3>(other.x, other.y, other.z);
     }
 
     template <std::size_t n1> vec<T, n1> expand() {
@@ -587,7 +595,7 @@ template <typename T> class vec<T, 2> {
 
     operator const T*() const { return reinterpret_cast<const T*>(this); }
 
-    void copy(T out[], int count = 2) const {
+    void copy_to(T out[], int count = 2) const {
         if (count > 0)
             out[0] = x;
         if (count > 1)
@@ -603,6 +611,10 @@ template <typename T> class vec<T, 2> {
         out.x = x;
         out.y = y;
         return out;
+    }
+
+    template <typename T1> static vec<T, 2> from_generic(const T1& other) {
+        return vec<T, 2>(other.x, other.y);
     }
 
     template <std::size_t n1> vec<T, n1> expand() {
