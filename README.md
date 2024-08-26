@@ -8,4 +8,4 @@ You could just roll your own nd vector type for each project, but that is just e
 This repository contains my single header vector type library, because there are not enough vector type libraries in the world (https://xkcd.com/927/).
 Just copy and paste hqvec.hpp somewhere in your project and then include it.
 
-See `examples.cpp` and `hqvec.hpp` for usage.
+See `example.cpp` and `hqvec.hpp` for usage.
