@@ -341,7 +341,7 @@ template <typename T, std::size_t n> class vec {
     T length2() const {
         T out = 0;
         for (int i = 0; i < n; i++) {
-            float temp = m_data[i];
+            T temp = m_data[i];
             out += temp * temp;
         }
         return out;
