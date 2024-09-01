@@ -339,7 +339,7 @@ template <typename T, std::size_t n> class vec {
      * @return T The squared length of the vector.
      */
     T length2() const {
-        float out = 0;
+        T out = 0;
         for (int i = 0; i < n; i++) {
             float temp = m_data[i];
             out += temp * temp;
@@ -369,6 +369,20 @@ template <typename T, std::size_t n> class vec {
      * @return T The distance between the two vectors.
      */
     T distance(const vec<T, n> v) const { return ((*this) - v).length(); }
+
+    /**
+     * @brief Computes the dot product of two vectors
+     *
+     * @param v The other vector.
+     * @return T The dot product of the two vectors.
+     */
+    T dot(const vec<T, n> v) const {
+        T out = 0;
+        for (int i = 0; i < n; i++) {
+            out += m_data[i] * v[i];
+        }
+        return out;
+    }
 
     /**
      * @brief Converts the vector to a string representation.
@@ -774,6 +788,16 @@ template <typename T> class vec<T, 4> {
     T distance(const vec<T, 4> v) { return ((*this) - v).length(); }
 
     /**
+     * @brief Computes the dot product of two vectors
+     *
+     * @param v The other vector.
+     * @return T The dot product of the two vectors.
+     */
+    T dot(const vec<T, 4> v) const {
+        return x * v.x + y * v.y + z * v.z + w * v.w;
+    }
+
+    /**
      * @brief Converts the vector to a string representation.
      *
      * @return std::string The string representation of the vector.
@@ -1151,6 +1175,25 @@ template <typename T> class vec<T, 3> {
     T distance(const vec<T, 3> v) { return ((*this) - v).length(); }
 
     /**
+     * @brief Computes the dot product of two vectors
+     *
+     * @param v The other vector.
+     * @return T The dot product of the two vectors.
+     */
+    T dot(const vec<T, 3> v) const { return x * v.x + y * v.y + z * v.z; }
+
+    /**
+     * @brief Computers the cross product of two 3D vectors
+     *
+     * @param v The other vector.
+     * @return vec<T,3> The cross product of the two 3D vectors.
+     */
+    vec<T, 3> cross(const vec<T, 3> v) const {
+        return vec<T, 3>(y * v.z - z * v.y, z * v.x - x * b.z,
+                         x * v.y - y * v.x);
+    }
+
+    /**
      * @brief Converts the vector to a string representation.
      *
      * @return std::string The string representation of the vector.
@@ -1497,6 +1540,14 @@ template <typename T> class vec<T, 2> {
      * @return T The distance between the two vectors.
      */
     T distance(const vec<T, 2> v) { return ((*this) - v).length(); }
+
+    /**
+     * @brief Computes the dot product of two vectors
+     *
+     * @param v The other vector.
+     * @return T The dot product of the two vectors.
+     */
+    T dot(const vec<T, 2> v) const { return x * v.x + y * v.y; }
 
     /**
      * @brief Converts the vector to a string representation.
