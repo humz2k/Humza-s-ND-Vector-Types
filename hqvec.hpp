@@ -1189,7 +1189,7 @@ template <typename T> class vec<T, 3> {
      * @return vec<T,3> The cross product of the two 3D vectors.
      */
     vec<T, 3> cross(const vec<T, 3> v) const {
-        return vec<T, 3>(y * v.z - z * v.y, z * v.x - x * b.z,
+        return vec<T, 3>(y * v.z - z * v.y, z * v.x - x * v.z,
                          x * v.y - y * v.x);
     }
 

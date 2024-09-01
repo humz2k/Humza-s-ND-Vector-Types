@@ -1,7 +1,9 @@
 example:
 	c++ example.cpp -std=c++11 -o example.o
 
-test:
+.PHONY: test
+
+test: test.cpp hqvec.hpp hqmat.hpp
 	c++ test.cpp -std=c++11 -o test.o
 	./test.o
 
