@@ -119,6 +119,20 @@ template <typename T, std::size_t n> class vec {
     }
 
     /**
+     * @brief Adds vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, n> The resulting vector.
+     */
+    vec<T, n> operator+(T other) const {
+        vec<T, n> out;
+        for (int i = 0; i < n; i++) {
+            out[i] = m_data[i] + other;
+        }
+        return out;
+    }
+
+    /**
      * @brief Multiplies two vectors element-wise.
      *
      * @param other The vector to multiply.
@@ -128,6 +142,20 @@ template <typename T, std::size_t n> class vec {
         vec<T, n> out;
         for (int i = 0; i < n; i++) {
             out[i] = m_data[i] * other[i];
+        }
+        return out;
+    }
+
+    /**
+     * @brief Multiplies vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, n> The resulting vector.
+     */
+    vec<T, n> operator*(T other) const {
+        vec<T, n> out;
+        for (int i = 0; i < n; i++) {
+            out[i] = m_data[i] * other;
         }
         return out;
     }
@@ -147,6 +175,20 @@ template <typename T, std::size_t n> class vec {
     }
 
     /**
+     * @brief Subtracts vector and scalar
+     *
+     * @param other The vector to subtract.
+     * @return vec<T, n> The resulting vector.
+     */
+    vec<T, n> operator-(T other) const {
+        vec<T, n> out;
+        for (int i = 0; i < n; i++) {
+            out[i] = m_data[i] - other;
+        }
+        return out;
+    }
+
+    /**
      * @brief Divides two vectors element-wise.
      *
      * @param other The vector to divide by.
@@ -156,6 +198,20 @@ template <typename T, std::size_t n> class vec {
         vec<T, n> out;
         for (int i = 0; i < n; i++) {
             out[i] = m_data[i] / other[i];
+        }
+        return out;
+    }
+
+    /**
+     * @brief Divides vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, n> The resulting vector.
+     */
+    vec<T, n> operator/(T other) const {
+        vec<T, n> out;
+        for (int i = 0; i < n; i++) {
+            out[i] = m_data[i] / other;
         }
         return out;
     }
@@ -487,6 +543,16 @@ template <typename T> class vec<T, 4> {
     }
 
     /**
+     * @brief Adds vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 4> The resulting vector.
+     */
+    vec<T, 4> operator+(T other) const {
+        return vec<T, 4>(x + other, y + other, z + other, w + other);
+    }
+
+    /**
      * @brief Subtracts two vectors element-wise.
      *
      * @param other The vector to subtract.
@@ -494,6 +560,16 @@ template <typename T> class vec<T, 4> {
      */
     vec<T, 4> operator-(const vec<T, 4>& other) const {
         return vec<T, 4>(x - other.x, y - other.y, z - other.z, w - other.w);
+    }
+
+    /**
+     * @brief Subtracts vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 4> The resulting vector.
+     */
+    vec<T, 4> operator-(T other) const {
+        return vec<T, 4>(x - other, y - other, z - other, w - other);
     }
 
     /**
@@ -507,6 +583,16 @@ template <typename T> class vec<T, 4> {
     }
 
     /**
+     * @brief Multiplies vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 4> The resulting vector.
+     */
+    vec<T, 4> operator*(T other) const {
+        return vec<T, 4>(x * other, y * other, z * other, w * other);
+    }
+
+    /**
      * @brief Divides two vectors element-wise.
      *
      * @param other The vector to divide by.
@@ -514,6 +600,16 @@ template <typename T> class vec<T, 4> {
      */
     vec<T, 4> operator/(const vec<T, 4>& other) const {
         return vec<T, 4>(x / other.x, y / other.y, z / other.z, w / other.w);
+    }
+
+    /**
+     * @brief Divides vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 4> The resulting vector.
+     */
+    vec<T, 4> operator/(T other) const {
+        return vec<T, 4>(x / other, y / other, z / other, w / other);
     }
 
     /**
@@ -833,6 +929,16 @@ template <typename T> class vec<T, 3> {
     }
 
     /**
+     * @brief Adds vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 3> The resulting vector.
+     */
+    vec<T, 3> operator+(T other) const {
+        return vec<T, 3>(x + other, y + other, z + other);
+    }
+
+    /**
      * @brief Subtracts two vectors element-wise.
      *
      * @param other The vector to subtract.
@@ -840,6 +946,16 @@ template <typename T> class vec<T, 3> {
      */
     vec<T, 3> operator-(const vec<T, 3>& other) const {
         return vec<T, 3>(x - other.x, y - other.y, z - other.z);
+    }
+
+    /**
+     * @brief Subtracts vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 3> The resulting vector.
+     */
+    vec<T, 3> operator-(T other) const {
+        return vec<T, 3>(x - other, y - other, z - other);
     }
 
     /**
@@ -853,6 +969,16 @@ template <typename T> class vec<T, 3> {
     }
 
     /**
+     * @brief Multiplies vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 3> The resulting vector.
+     */
+    vec<T, 3> operator*(T other) const {
+        return vec<T, 3>(x * other, y * other, z * other);
+    }
+
+    /**
      * @brief Divides two vectors element-wise.
      *
      * @param other The vector to divide by.
@@ -860,6 +986,16 @@ template <typename T> class vec<T, 3> {
      */
     vec<T, 3> operator/(const vec<T, 3>& other) const {
         return vec<T, 3>(x / other.x, y / other.y, z / other.z);
+    }
+
+    /**
+     * @brief Divides vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 3> The resulting vector.
+     */
+    vec<T, 3> operator/(T other) const {
+        return vec<T, 3>(x / other, y / other, z / other);
     }
 
     /**
@@ -1157,6 +1293,16 @@ template <typename T> class vec<T, 2> {
     }
 
     /**
+     * @brief Adds vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 2> The resulting vector.
+     */
+    vec<T, 2> operator+(T other) const {
+        return vec<T, 2>(x + other, y + other);
+    }
+
+    /**
      * @brief Subtracts two vectors element-wise.
      *
      * @param other The vector to subtract.
@@ -1164,6 +1310,16 @@ template <typename T> class vec<T, 2> {
      */
     vec<T, 2> operator-(const vec<T, 2>& other) const {
         return vec<T, 2>(x - other.x, y - other.y);
+    }
+
+    /**
+     * @brief Subtracts vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 2> The resulting vector.
+     */
+    vec<T, 2> operator-(T other) const {
+        return vec<T, 2>(x - other, y - other);
     }
 
     /**
@@ -1177,6 +1333,16 @@ template <typename T> class vec<T, 2> {
     }
 
     /**
+     * @brief Multiplies vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 2> The resulting vector.
+     */
+    vec<T, 2> operator*(T other) const {
+        return vec<T, 2>(x * other, y * other);
+    }
+
+    /**
      * @brief Divides two vectors element-wise.
      *
      * @param other The vector to divide by.
@@ -1184,6 +1350,16 @@ template <typename T> class vec<T, 2> {
      */
     vec<T, 2> operator/(const vec<T, 2>& other) const {
         return vec<T, 2>(x / other.x, y / other.y);
+    }
+
+    /**
+     * @brief Divides vector and scalar
+     *
+     * @param other Scalar
+     * @return vec<T, 2> The resulting vector.
+     */
+    vec<T, 2> operator/(T other) const {
+        return vec<T, 2>(x / other, y / other);
     }
 
     /**
